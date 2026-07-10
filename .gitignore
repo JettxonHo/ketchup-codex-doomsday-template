@@ -4,7 +4,12 @@ __pycache__/
 .venv/
 .env
 .env.*
+*.pem
+*.key
 .superpowers/
+docs/superpowers/
 *.bak
 *.tmp
-
+CLAUDE.md
+doomsday-skill.zip
+末世重生类 Aligner Subagent System Prompt/

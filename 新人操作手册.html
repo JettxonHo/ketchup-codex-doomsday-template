@@ -288,10 +288,10 @@
         <p>填写三个问题，生成一段可以直接粘贴给 Codex 的启动提示词。内容只在你的浏览器中处理。</p>
         <form id="starter-form" novalidate>
           <div class="form-grid">
-            <div class="field full"><label for="idea">核心创意</label><span class="helper">前世怎么死、何时重生、主要矛盾是什么？</span><textarea id="idea" placeholder="例如：被亲属赶出安全屋后冻死，重生到末日前三个月。" required></textarea><span class="error" id="idea-error"></span></div>
+            <div class="field full"><label for="idea">核心创意</label><span class="helper">前世怎么死、何时重生、主要矛盾是什么？最多 1000 字。</span><textarea id="idea" maxlength="1000" placeholder="例如：被亲属赶出安全屋后冻死，重生到末日前三个月。" required></textarea><span class="error" id="idea-error"></span></div>
             <div class="field"><label for="power">金手指</label><span class="helper">选择最接近的类型</span><select id="power" required><option value="">请选择</option><option>空间储物</option><option>签到系统</option><option>重生先知</option><option>异能觉醒</option><option>其他自定义能力</option></select><span class="error" id="power-error"></span></div>
             <div class="field"><label for="theme">题材议题</label><span class="helper">决定主要爽点方向</span><select id="theme" required><option value="">请选择</option><option>囤货复仇</option><option>咸鱼躺平</option><option>基建扩张</option><option>先知布局</option><option>其他自定义调性</option></select><span class="error" id="theme-error"></span></div>
-            <div class="field full"><label for="extra">补充约束（可选）</label><span class="helper">例如不能圣母、女主独行、不设置感情线</span><input id="extra" placeholder="没有可留空"></div>
+            <div class="field full"><label for="extra">补充约束（可选）</label><span class="helper">例如不能圣母、女主独行、不设置感情线；最多 300 字。</span><input id="extra" maxlength="300" placeholder="没有可留空"></div>
             <div class="field full form-actions"><button class="primary-btn" type="submit">生成提示词</button><button class="secondary-btn" type="button" id="copy-prompt" disabled>复制提示词</button><span class="status" id="form-status" role="status" aria-live="polite"></span></div>
           </div>
         </form>
