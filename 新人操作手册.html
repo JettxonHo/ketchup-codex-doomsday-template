@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>FEICAI 新人操作手册</title>
+  <style>
+    :root {
+      --ink: #17231d;
+      --muted: #59665f;
+      --paper: #f4f3ee;
+      --surface: #fffef9;
+      --forest: #173f30;
+      --forest-2: #245944;
+      --amber: #d88b22;
+      --amber-soft: #fff0d2;
+      --line: #cdd3cc;
+      --danger: #a43b2b;
+      --success: #17693f;
+      --radius: 12px;
+      --shadow: 0 18px 50px rgba(23, 63, 48, .11);
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(rgba(23, 63, 48, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(23, 63, 48, .035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.65;
+    }
+    button, input, textarea, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: var(--forest); }
+    code, pre, .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+    :focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+
+    .shell { width: min(calc(100% - 32px), var(--max)); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      color: #fff;
+      background: rgba(23, 63, 48, .97);
+      border-bottom: 1px solid rgba(255,255,255,.16);
+    }
+    .topbar-inner { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark {
+      width: 38px; height: 38px; display: grid; place-items: center;
+      border: 1px solid rgba(255,255,255,.55); border-radius: 50%; font-weight: 800; letter-spacing: -.04em;
+    }
+    .brand strong { display: block; letter-spacing: .08em; }
+    .brand small { display: block; color: rgba(255,255,255,.7); font-size: 12px; }
+    .offline { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; white-space: nowrap; }
+    .offline::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #72d59e; box-shadow: 0 0 0 4px rgba(114,213,158,.12); }
+
+    .hero { padding: 54px 0 30px; }
+    .hero-grid { display: grid; grid-template-columns: 1.35fr .65fr; gap: 28px; align-items: stretch; }
+    .hero-copy { padding: 26px 0; }
+    .kicker { color: var(--forest-2); font-size: 13px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { max-width: 760px; margin: 10px 0 18px; font-size: clamp(38px, 6vw, 72px); line-height: 1.02; letter-spacing: -.055em; }
+    .lead { max-width: 680px; margin: 0; color: var(--muted); font-size: clamp(17px, 2vw, 21px); }
+    .hero-note { background: var(--forest); color: #fff; border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
+    .hero-note p { color: rgba(255,255,255,.76); }
+    .hero-note .number { font-size: 56px; line-height: 1; font-weight: 800; color: #ffd58b; }
+
+    .stage-nav { margin: 14px 0 28px; }
+    .stage-nav h2 { font-size: 16px; margin: 0 0 10px; }
+    .stage-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .stage-btn {
+      appearance: none; border: 1px solid var(--line); background: rgba(255,255,255,.72); color: var(--ink);
+      border-radius: var(--radius); padding: 14px 12px; text-align: left; cursor: pointer; transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+    .stage-btn:hover { transform: translateY(-2px); border-color: var(--forest-2); }
+    .stage-btn:active { transform: translateY(0); }
+    .stage-btn[aria-selected="true"] { background: var(--forest); color: white; border-color: var(--forest); }
+    .stage-btn span { display: block; font-size: 12px; opacity: .72; }
+    .stage-btn strong { display: block; margin-top: 3px; }
+
+    main { padding-bottom: 64px; }
+    .workspace { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, .55fr); gap: 22px; align-items: start; }
+    .panel { background: rgba(255,254,249,.96); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 8px 30px rgba(23,63,48,.07); }
+    .panel-body { padding: 28px; }
+    .panel-title { display: flex; justify-content: space-between; gap: 18px; align-items: flex-start; margin-bottom: 20px; }
+    .panel-title h2, .section h2 { margin: 0; font-size: clamp(24px, 3vw, 36px); letter-spacing: -.03em; line-height: 1.15; }
+    .badge { display: inline-flex; align-items: center; padding: 5px 9px; color: var(--forest); background: #e5efe9; border: 1px solid #b9d2c2; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .action-box { border-left: 5px solid var(--amber); background: var(--amber-soft); padding: 18px; border-radius: 0 var(--radius) var(--radius) 0; }
+    .action-box h3 { margin: 0 0 6px; }
+    .action-box p { margin: 0; }
+    .steps { counter-reset: step; display: grid; gap: 12px; margin: 22px 0 0; padding: 0; list-style: none; }
+    .steps li { counter-increment: step; display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start; }
+    .steps li::before { content: counter(step); width: 30px; height: 30px; display: grid; place-items: center; color: white; background: var(--forest); border-radius: 50%; font-weight: 800; }
+
+    .quick-card { padding: 22px; }
+    .quick-card h2 { margin-top: 0; font-size: 20px; }
+    .command { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line); }
+    .command code { font-weight: 700; color: var(--forest); }
+    .copy-btn, .primary-btn, .secondary-btn, .danger-btn {
+      border: 0; border-radius: 9px; padding: 10px 14px; font-weight: 750; cursor: pointer; white-space: nowrap; transition: transform .12s ease, background .12s ease;
+    }
+    .copy-btn, .secondary-btn { color: var(--forest); background: #e6eee9; }
+    .primary-btn { color: white; background: var(--forest); }
+    .danger-btn { color: white; background: var(--danger); }
+    .copy-btn:hover, .secondary-btn:hover { background: #d5e5dc; }
+    .primary-btn:hover { background: var(--forest-2); }
+    .copy-btn:active, .primary-btn:active, .secondary-btn:active, .danger-btn:active { transform: translateY(1px); }
+    .status { min-height: 24px; margin: 12px 0 0; color: var(--success); font-weight: 700; font-size: 14px; }
+
+    .section { margin-top: 24px; padding: 32px; background: rgba(255,254,249,.94); border: 1px solid var(--line); border-radius: var(--radius); }
+    .section > p:first-of-type { color: var(--muted); max-width: 72ch; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+    .field { display: grid; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-weight: 750; }
+    .helper { color: var(--muted); font-size: 13px; }
+    input, textarea, select {
+      width: 100%; color: var(--ink); background: white; border: 1px solid #9da9a1; border-radius: 9px; padding: 12px 13px;
+    }
+    textarea { min-height: 106px; resize: vertical; }
+    input::placeholder, textarea::placeholder { color: #68756d; }
+    .error { color: var(--danger); font-size: 13px; font-weight: 700; min-height: 20px; }
+    .form-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .output { margin-top: 18px; padding: 18px; background: #102a20; color: #eff9f2; border-radius: var(--radius); white-space: pre-wrap; overflow-wrap: anywhere; }
+    .output[hidden] { display: none; }
+
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 24px; }
+    .flow-step { position: relative; min-height: 128px; padding: 16px; border: 1px solid var(--line); border-radius: var(--radius); background: white; }
+    .flow-step:not(:last-child)::after { content: "→"; position: absolute; right: -15px; top: 47px; z-index: 2; width: 20px; height: 30px; display: grid; place-items: center; color: var(--amber); font-weight: 900; background: var(--paper); }
+    .flow-step strong { display: block; margin-bottom: 6px; color: var(--forest); }
+    .flow-step small { color: var(--muted); }
+
+    .gate { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+    .gate-item { padding: 20px; border-radius: var(--radius); border: 1px solid var(--line); }
+    .gate-item.pass { background: #e8f4ec; border-color: #a8ceb6; }
+    .gate-item.fail { background: #fff0e8; border-color: #e0b49e; }
+    .gate-item h3 { margin: 0 0 8px; }
+
+    .table-wrap { overflow-x: auto; margin-top: 20px; }
+    table { width: 100%; border-collapse: collapse; min-width: 620px; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; }
+    th { color: white; background: var(--forest); }
+    tbody tr:nth-child(even) { background: #f1f4f1; }
+
+    details { border-top: 1px solid var(--line); padding: 15px 0; }
+    details:first-of-type { margin-top: 18px; }
+    summary { cursor: pointer; font-weight: 800; color: var(--forest); }
+    details p { color: var(--muted); }
+    .file-tree { padding: 20px; color: #edf7f0; background: #132a21; border-radius: var(--radius); overflow-x: auto; }
+
+    .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 20px; margin-top: 20px; }
+    .check-item { display: flex; gap: 10px; align-items: flex-start; padding: 12px; background: white; border: 1px solid var(--line); border-radius: 9px; }
+    .check-item input { width: 20px; height: 20px; margin-top: 2px; accent-color: var(--forest); }
+    .progress-track { height: 10px; margin: 20px 0 8px; background: #dce2dd; border-radius: 99px; overflow: hidden; }
+    .progress-bar { width: 0; height: 100%; background: var(--amber); transition: width .25s ease; }
+    .reset-row { display: flex; justify-content: space-between; gap: 16px; align-items: center; flex-wrap: wrap; }
+
+    footer { padding: 34px 0 54px; color: var(--muted); font-size: 14px; }
+    .noscript { margin: 16px auto; padding: 14px; color: #651d15; background: #ffe9e4; border: 1px solid #d79a8e; border-radius: var(--radius); }
+
+    @media (max-width: 900px) {
+      .hero-grid, .workspace { grid-template-columns: 1fr; }
+      .hero-note { min-height: 210px; }
+      .stage-list { grid-template-columns: repeat(3, 1fr); }
+      .flow { grid-template-columns: 1fr; }
+      .flow-step { min-height: auto; }
+      .flow-step:not(:last-child)::after { content: "↓"; right: auto; left: 24px; top: auto; bottom: -22px; }
+    }
+    @media (max-width: 720px) {
+      .shell { width: min(calc(100% - 20px), var(--max)); }
+      .topbar-inner { min-height: 62px; }
+      .brand small { display: none; }
+      .offline { font-size: 12px; }
+      .hero { padding-top: 34px; }
+      .hero-copy { padding: 8px 0; }
+      h1 { font-size: clamp(38px, 13vw, 56px); }
+      .stage-list { grid-template-columns: 1fr 1fr; }
+      .panel-body, .section { padding: 22px 18px; }
+      .panel-title { display: block; }
+      .panel-title .badge { margin-top: 10px; }
+      .form-grid, .gate, .checklist { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .command { align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+    @media print {
+      body { background: white; font-size: 11pt; }
+      .topbar { position: static; }
+      .stage-nav, button, form, .status, .progress-track, .reset-row { display: none !important; }
+      .hero, main { padding: 12px 0; }
+      .hero-grid, .workspace, .form-grid, .gate, .checklist, .flow { display: block; }
+      .panel, .section, .hero-note { box-shadow: none; break-inside: avoid; margin: 12px 0; }
+      .stage-panel { display: block !important; }
+      details { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <noscript><div class="shell noscript">JavaScript 已关闭：教程内容仍可阅读，但复制、提示词生成和培训进度记忆不可用。</div></noscript>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <div class="brand"><div class="brand-mark">F</div><div><strong>FEICAI 工作台</strong><small>末世重生漫剧 · Codex 新人培训</small></div></div>
+      <div class="offline">单文件离线可用</div>
+    </div>
+  </header>
+
+  <div class="shell">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="kicker">从零开始，不跳步骤</div>
+          <h1 id="page-title">把一个创意，推进成 60 集漫剧</h1>
+          <p class="lead">按阶段操作、按批次创作、按双重门禁发布。这里告诉你现在该做什么，以及为什么。</p>
+        </div>
+        <aside class="hero-note" aria-label="核心规则">
+          <div><div class="number">12</div><strong>个正文批次</strong></div>
+          <p>每批五集。先生成草稿，再检查格式与剧情一致性，双重 PASS 后才能进入正式正文。</p>
+        </aside>
+      </div>
+    </section>
+
+    <nav class="stage-nav" aria-label="培训阶段">
+      <h2>选择你当前所在阶段</h2>
+      <div class="stage-list" role="tablist">
+        <button class="stage-btn" role="tab" aria-selected="true" aria-controls="stage-outline" id="tab-outline" data-stage="outline"><span>01</span><strong>故事大纲</strong></button>
+        <button class="stage-btn" role="tab" aria-selected="false" aria-controls="stage-character" id="tab-character" data-stage="character"><span>02</span><strong>人物小传</strong></button>
+        <button class="stage-btn" role="tab" aria-selected="false" aria-controls="stage-catalog" id="tab-catalog" data-stage="catalog"><span>03</span><strong>章节目录</strong></button>
+        <button class="stage-btn" role="tab" aria-selected="false" aria-controls="stage-writing" id="tab-writing" data-stage="writing"><span>04</span><strong>分集正文</strong></button>
+        <button class="stage-btn" role="tab" aria-selected="false" aria-controls="stage-check" id="tab-check" data-stage="check"><span>05</span><strong>全剧检查</strong></button>
+      </div>
+    </nav>
+
+    <main>
+      <div class="workspace">
+        <div class="panel">
+          <div class="panel-body stage-panel" id="stage-outline" role="tabpanel" aria-labelledby="tab-outline">
+            <div class="panel-title"><div><div class="kicker">当前行动</div><h2>先把故事地基搭稳</h2></div><span class="badge">无需斜杠指令</span></div>
+            <div class="action-box"><h3>现在要做什么？</h3><p>回答核心创意、金手指和题材议题三个问题，然后让 Codex 创建 `outline.md`。</p></div>
+            <ol class="steps"><li><div><strong>写出前世惨死和重生节点</strong><br>一两句话即可，不必先写完整剧情。</div></li><li><div><strong>确定金手指边界</strong><br>空间能否进活物、是否时间静止，都应尽早说清。</div></li><li><div><strong>选择主要爽点</strong><br>囤货复仇、咸鱼躺平、基地建设或先知布局。</div></li></ol>
+          </div>
+          <div class="panel-body stage-panel" id="stage-character" role="tabpanel" aria-labelledby="tab-character" hidden>
+            <div class="panel-title"><div><div class="kicker">当前行动</div><h2>让角色服务冲突</h2></div><span class="badge">前置：outline.md</span></div>
+            <div class="action-box"><h3>在 Codex 输入 `/character`</h3><p>Codex 会读取大纲和人物模板，创建主角、前世仇人、队友及最终 Boss 的人物小传。</p></div>
+            <ol class="steps"><li><div><strong>先确认大纲满意</strong><br>人物必须服从故事主线和天灾进程。</div></li><li><div><strong>输入项目指令</strong><br><code>/character</code></div></li><li><div><strong>检查角色动机</strong><br>重点查看前世关系、复仇理由和出场阶段。</div></li></ol>
+          </div>
+          <div class="panel-body stage-panel" id="stage-catalog" role="tabpanel" aria-labelledby="tab-catalog" hidden>
+            <div class="panel-title"><div><div class="kicker">当前行动</div><h2>把 60 集拆成路线图</h2></div><span class="badge">前置：大纲 + 人物</span></div>
+            <div class="action-box"><h3>在 Codex 输入 `/catalog`</h3><p>目录必须正好 60 集，每集有标题和一句话剧情推进，关键集承担大爽点。</p></div>
+            <ol class="steps"><li><div><strong>确认两个前置文件存在</strong><br>`outline.md` 和 `character.md` 缺一不可。</div></li><li><div><strong>生成章节目录</strong><br><code>/catalog</code></div></li><li><div><strong>检查关键节点</strong><br>第 10、20、30、40、50、60 集必须清晰。</div></li></ol>
+          </div>
+          <div class="panel-body stage-panel" id="stage-writing" role="tabpanel" aria-labelledby="tab-writing" hidden>
+            <div class="panel-title"><div><div class="kicker">当前行动</div><h2>每次只写五集</h2></div><span class="badge">12 个批次</span></div>
+            <div class="action-box"><h3>从 `/write 1` 开始</h3><p>数字是批次编号，不是幕数。草稿进入 `drafts/`，检查通过后才发布到 `chapters/`。</p></div>
+            <ol class="steps"><li><div><strong>按顺序选批次</strong><br>不要跳过前一批剧情和检查报告。</div></li><li><div><strong>等待双重检查</strong><br>Python 检查硬规则，Aligner 检查剧情一致性。</div></li><li><div><strong>只认正式目录</strong><br>只有 `chapters/` 中的文件才算正式完成。</div></li></ol>
+          </div>
+          <div class="panel-body stage-panel" id="stage-check" role="tabpanel" aria-labelledby="tab-check" hidden>
+            <div class="panel-title"><div><div class="kicker">当前行动</div><h2>用证据确认完成</h2></div><span class="badge">默认只检查</span></div>
+            <div class="action-box"><h3>输入 `/check` 或 `/status`</h3><p>`/check` 找问题但默认不修改；`/status` 展示真实文件、批次报告与下一步。</p></div>
+            <ol class="steps"><li><div><strong>先跑硬规则</strong><br><code>python3 scripts/validate_project.py</code></div></li><li><div><strong>再做语义检查</strong><br>人物、天灾、爽点、时间线和金手指统一。</div></li><li><div><strong>失败就保留报告</strong><br>不能跳过问题或口头宣称 PASS。</div></li></ol>
+          </div>
+        </div>
+
+        <aside class="panel quick-card" aria-labelledby="commands-title">
+          <h2 id="commands-title">常用指令</h2>
+          <p class="helper">点击复制，再粘贴到当前 Codex 对话。</p>
+          <div class="command"><code>/character</code><button class="copy-btn" data-copy="/character">复制</button></div>
+          <div class="command"><code>/catalog</code><button class="copy-btn" data-copy="/catalog">复制</button></div>
+          <div class="command"><code>/write 1</code><button class="copy-btn" data-copy="/write 1">复制</button></div>
+          <div class="command"><code>/status</code><button class="copy-btn" data-copy="/status">复制</button></div>
+          <div class="command"><code>/check</code><button class="copy-btn" data-copy="/check">复制</button></div>
+          <div class="command"><code>/help</code><button class="copy-btn" data-copy="/help">复制</button></div>
+          <p class="status" id="copy-status" role="status" aria-live="polite"></p>
+        </aside>
+      </div>
+
+      <section class="section" id="starter" aria-labelledby="starter-title">
+        <h2 id="starter-title">新项目启动器</h2>
+        <p>填写三个问题，生成一段可以直接粘贴给 Codex 的启动提示词。内容只在你的浏览器中处理。</p>
+        <form id="starter-form" novalidate>
+          <div class="form-grid">
+            <div class="field full"><label for="idea">核心创意</label><span class="helper">前世怎么死、何时重生、主要矛盾是什么？</span><textarea id="idea" placeholder="例如：被亲属赶出安全屋后冻死，重生到末日前三个月。" required></textarea><span class="error" id="idea-error"></span></div>
+            <div class="field"><label for="power">金手指</label><span class="helper">选择最接近的类型</span><select id="power" required><option value="">请选择</option><option>空间储物</option><option>签到系统</option><option>重生先知</option><option>异能觉醒</option><option>其他自定义能力</option></select><span class="error" id="power-error"></span></div>
+            <div class="field"><label for="theme">题材议题</label><span class="helper">决定主要爽点方向</span><select id="theme" required><option value="">请选择</option><option>囤货复仇</option><option>咸鱼躺平</option><option>基建扩张</option><option>先知布局</option><option>其他自定义调性</option></select><span class="error" id="theme-error"></span></div>
+            <div class="field full"><label for="extra">补充约束（可选）</label><span class="helper">例如不能圣母、女主独行、不设置感情线</span><input id="extra" placeholder="没有可留空"></div>
+            <div class="field full form-actions"><button class="primary-btn" type="submit">生成提示词</button><button class="secondary-btn" type="button" id="copy-prompt" disabled>复制提示词</button><span class="status" id="form-status" role="status" aria-live="polite"></span></div>
+          </div>
+        </form>
+        <pre class="output" id="prompt-output" hidden></pre>
+      </section>
+
+      <section class="section" aria-labelledby="flow-title">
+        <h2 id="flow-title">完整工作流</h2>
+        <p>每个阶段只解决一个问题。前置文件不存在时，不要跳到后面。</p>
+        <div class="flow">
+          <div class="flow-step"><strong>01 大纲</strong><small>确定主线、天灾、金手指和三幕爽点。</small></div>
+          <div class="flow-step"><strong>02 人物</strong><small>把角色动机、关系和出场阶段固定下来。</small></div>
+          <div class="flow-step"><strong>03 目录</strong><small>把故事拆成固定 60 集推进路线。</small></div>
+          <div class="flow-step"><strong>04 正文</strong><small>每批五集，生成草稿并通过双重检查。</small></div>
+          <div class="flow-step"><strong>05 全检</strong><small>核对正式文件、报告、状态和全剧一致性。</small></div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="gate-title">
+        <h2 id="gate-title">为什么要双重质量门禁</h2>
+        <p>程序擅长判断“有没有”，Aligner 擅长判断“对不对”。两者不能互相替代。</p>
+        <div class="gate"><div class="gate-item pass"><h3>确定性检查</h3><p>文件名、缺集、字数、标题、※、△、【卡黑】和状态记录。</p></div><div class="gate-item pass"><h3>Aligner 语义检查</h3><p>剧情推进、人物行为、天灾时间线、爽点、数值和金手指规则。</p></div><div class="gate-item fail"><h3>FAIL 时</h3><p>保留草稿和问题报告，精准返修，最多自动进行三轮。</p></div><div class="gate-item pass"><h3>PASS 后</h3><p>正文才能从 `drafts/` 发布到 `chapters/`，并更新项目状态。</p></div></div>
+      </section>
+
+      <section class="section" aria-labelledby="batch-title">
+        <h2 id="batch-title">十二批次速查表</h2>
+        <p>“幕”是故事结构，“批次”是每次写五集的操作单位。</p>
+        <div class="table-wrap"><table><thead><tr><th>指令</th><th>集数</th><th>所属幕</th><th>复制</th></tr></thead><tbody>
+          <tr><td><code>/write 1</code></td><td>01—05</td><td>第一幕</td><td><button class="copy-btn" data-copy="/write 1">复制</button></td></tr>
+          <tr><td><code>/write 2</code></td><td>06—10</td><td>第一幕</td><td><button class="copy-btn" data-copy="/write 2">复制</button></td></tr>
+          <tr><td><code>/write 3</code></td><td>11—15</td><td>第一幕</td><td><button class="copy-btn" data-copy="/write 3">复制</button></td></tr>
+          <tr><td><code>/write 4</code></td><td>16—20</td><td>第一幕</td><td><button class="copy-btn" data-copy="/write 4">复制</button></td></tr>
+          <tr><td><code>/write 5</code></td><td>21—25</td><td>第二幕</td><td><button class="copy-btn" data-copy="/write 5">复制</button></td></tr>
+          <tr><td><code>/write 6</code></td><td>26—30</td><td>第二幕</td><td><button class="copy-btn" data-copy="/write 6">复制</button></td></tr>
+          <tr><td><code>/write 7</code></td><td>31—35</td><td>第二幕</td><td><button class="copy-btn" data-copy="/write 7">复制</button></td></tr>
+          <tr><td><code>/write 8</code></td><td>36—40</td><td>第二幕</td><td><button class="copy-btn" data-copy="/write 8">复制</button></td></tr>
+          <tr><td><code>/write 9</code></td><td>41—45</td><td>第二幕</td><td><button class="copy-btn" data-copy="/write 9">复制</button></td></tr>
+          <tr><td><code>/write 10</code></td><td>46—50</td><td>第三幕</td><td><button class="copy-btn" data-copy="/write 10">复制</button></td></tr>
+          <tr><td><code>/write 11</code></td><td>51—55</td><td>第三幕</td><td><button class="copy-btn" data-copy="/write 11">复制</button></td></tr>
+          <tr><td><code>/write 12</code></td><td>56—60</td><td>第三幕</td><td><button class="copy-btn" data-copy="/write 12">复制</button></td></tr>
+        </tbody></table></div>
+      </section>
+
+      <section class="section" aria-labelledby="files-title">
+        <h2 id="files-title">文件放在哪里</h2>
+        <p>正式成果和临时草稿分开，出了问题才有回退和追踪依据。</p>
+        <pre class="file-tree">项目根目录/
+├── outline.md          故事大纲
+├── character.md        人物小传
+├── chapter_index.md    60 集目录
+├── drafts/             未通过检查的草稿
+├── reviews/            检查报告
+├── chapters/           已通过检查的正式正文
+├── project.yaml        项目状态
+└── scripts/            确定性校验工具</pre>
+        <p><strong>注意：</strong>模板不会预建空的大纲、人物和目录文件。它们存在，就代表对应阶段已经产生正式成果。</p>
+      </section>
+
+      <section class="section" aria-labelledby="practice-title">
+        <h2 id="practice-title">新人第一次完整演练</h2>
+        <p>用一个练习项目走通流程，不需要一次写完 60 集。</p>
+        <details open><summary>第 1 步：生成大纲</summary><p>在启动器填写：女主被偏心亲属赶出安全屋后冻死；重生到末日前三个月；获得时间静止的储物空间；选择囤货复仇。复制提示词给 Codex。</p></details>
+        <details><summary>第 2 步：生成角色与目录</summary><p>确认 `outline.md` 后输入 `/character`。确认人物后输入 `/catalog`。检查第 10、20、30、40、50、60 集的关键爽点。</p></details>
+        <details><summary>第 3 步：创作第一批</summary><p>输入 `/write 1`。观察五集先进入 `drafts/`，再经过程序和 Aligner 两次检查；只有 PASS 后才出现于 `chapters/`。</p></details>
+        <details><summary>第 4 步：查看真实进度</summary><p>输入 `/status`，确认基础文档、批次状态、正式集数和下一条指令。不要只根据对话中的口头描述判断完成。</p></details>
+      </section>
+
+      <section class="section" aria-labelledby="faq-title">
+        <h2 id="faq-title">不会操作时先看这里</h2>
+        <details><summary>输入 `/write 1` 后为什么没有直接生成正式正文？</summary><p>这是正常行为。正文必须先进入草稿目录，通过确定性检查和 Aligner 检查，才能发布。</p></details>
+        <details><summary>为什么提示缺少前置文件？</summary><p>工作流不能跳级。缺 `outline.md` 就先做大纲；缺 `character.md` 就输入 `/character`；缺目录就输入 `/catalog`。</p></details>
+        <details><summary>FAIL 是不是项目坏了？</summary><p>不是。FAIL 代表检查发现可定位的问题。查看 `reviews/` 报告，修订后重新检查即可。</p></details>
+        <details><summary>可以直接修改 `chapters/` 吗？</summary><p>不建议。修改已发布正文时，应先复制到 `drafts/` 修订并重新通过双重门禁，避免失去已验证版本。</p></details>
+        <details><summary>`/write 10` 是第十幕吗？</summary><p>不是。它是第十个五集批次，对应第 46—50 集，属于第三幕。</p></details>
+        <details><summary>HTML 会上传我的创意吗？</summary><p>不会。这个文件没有网络依赖；提示词生成和培训进度都只在当前浏览器本地处理。</p></details>
+      </section>
+
+      <section class="section" aria-labelledby="checklist-title">
+        <h2 id="checklist-title">培训完成检查</h2>
+        <p>勾选结果只保存在当前浏览器。完成全部项目，说明你已经能独立使用模板。</p>
+        <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
+        <div class="reset-row"><strong id="progress-text">已完成 0 / 8</strong><button class="danger-btn" id="reset-progress" type="button">重置培训进度</button></div>
+        <div class="checklist" id="training-checklist">
+          <label class="check-item"><input type="checkbox" value="open"><span>我能用 Codex 打开正确的项目目录。</span></label>
+          <label class="check-item"><input type="checkbox" value="start"><span>我能回答三个启动问题并生成大纲。</span></label>
+          <label class="check-item"><input type="checkbox" value="sequence"><span>我知道大纲、人物、目录不能跳级。</span></label>
+          <label class="check-item"><input type="checkbox" value="batch"><span>我知道 `/write` 后是批次编号。</span></label>
+          <label class="check-item"><input type="checkbox" value="draft"><span>我知道草稿和正式正文的区别。</span></label>
+          <label class="check-item"><input type="checkbox" value="gate"><span>我能解释双重质量门禁。</span></label>
+          <label class="check-item"><input type="checkbox" value="status"><span>我会使用 `/status` 和 `/check`。</span></label>
+          <label class="check-item"><input type="checkbox" value="fail"><span>遇到 FAIL 时，我会查看报告而不是跳过。</span></label>
+        </div>
+        <p class="status" id="progress-status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <footer>FEICAI · Codex 末世重生漫剧工作流模板。建议培训时先演练第一批，再开始正式项目。</footer>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+      var STORAGE_KEY = "feicai-training-progress-v1";
+      var stageButtons = Array.prototype.slice.call(document.querySelectorAll(".stage-btn"));
+      var stagePanels = Array.prototype.slice.call(document.querySelectorAll(".stage-panel"));
+      var copyStatus = document.getElementById("copy-status");
+      var promptOutput = document.getElementById("prompt-output");
+      var copyPromptButton = document.getElementById("copy-prompt");
+      var formStatus = document.getElementById("form-status");
+
+      function setStage(name) {
+        stageButtons.forEach(function (button) {
+          var active = button.getAttribute("data-stage") === name;
+          button.setAttribute("aria-selected", String(active));
+          button.setAttribute("tabindex", active ? "0" : "-1");
+        });
+        stagePanels.forEach(function (panel) {
+          panel.hidden = panel.id !== "stage-" + name;
+        });
+      }
+
+      stageButtons.forEach(function (button, index) {
+        button.addEventListener("click", function () { setStage(button.getAttribute("data-stage")); });
+        button.addEventListener("keydown", function (event) {
+          if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+          event.preventDefault();
+          var offset = event.key === "ArrowRight" ? 1 : -1;
+          var next = (index + offset + stageButtons.length) % stageButtons.length;
+          stageButtons[next].focus();
+          setStage(stageButtons[next].getAttribute("data-stage"));
+        });
+      });
+
+      function fallbackCopy(text) {
+        var area = document.createElement("textarea");
+        area.value = text;
+        area.setAttribute("readonly", "");
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        var ok = document.execCommand("copy");
+        document.body.removeChild(area);
+        if (!ok) throw new Error("copy failed");
+      }
+
+      function copyText(text, statusElement) {
+        var done = function () { statusElement.textContent = "已复制，可以粘贴到 Codex。"; };
+        var failed = function () { statusElement.textContent = "自动复制失败，请选中文本后手动复制。"; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done).catch(function () {
+            try { fallbackCopy(text); done(); } catch (error) { failed(); }
+          });
+        } else {
+          try { fallbackCopy(text); done(); } catch (error) { failed(); }
+        }
+      }
+
+      Array.prototype.slice.call(document.querySelectorAll("[data-copy]")).forEach(function (button) {
+        button.addEventListener("click", function () { copyText(button.getAttribute("data-copy"), copyStatus); });
+      });
+
+      document.getElementById("starter-form").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var idea = document.getElementById("idea").value.trim();
+        var power = document.getElementById("power").value;
+        var theme = document.getElementById("theme").value;
+        var extra = document.getElementById("extra").value.trim();
+        document.getElementById("idea-error").textContent = idea ? "" : "请先填写核心创意。";
+        document.getElementById("power-error").textContent = power ? "" : "请选择金手指。";
+        document.getElementById("theme-error").textContent = theme ? "" : "请选择题材议题。";
+        if (!idea || !power || !theme) {
+          formStatus.textContent = "还有必填项没有完成。";
+          return;
+        }
+        var prompt = "我要创建一部 60 集末世重生漫剧。\n\n" +
+          "核心创意：" + idea + "\n" +
+          "金手指：" + power + "\n" +
+          "题材议题：" + theme + "\n" +
+          (extra ? "补充约束：" + extra + "\n" : "") +
+          "\n请读取并遵循本项目 AGENTS.md 和 doomsday-skill/SKILL.md，先创作完整故事大纲。严格按模板写入 outline.md，完成后告诉我检查结果和下一步指令。";
+        promptOutput.textContent = prompt;
+        promptOutput.hidden = false;
+        copyPromptButton.disabled = false;
+        formStatus.textContent = "提示词已生成。";
+      });
+
+      copyPromptButton.addEventListener("click", function () {
+        if (!promptOutput.textContent) return;
+        copyText(promptOutput.textContent, formStatus);
+      });
+
+      var checks = Array.prototype.slice.call(document.querySelectorAll("#training-checklist input[type='checkbox']"));
+      var progressBar = document.getElementById("progress-bar");
+      var progressText = document.getElementById("progress-text");
+      var progressStatus = document.getElementById("progress-status");
+
+      function loadProgress() {
+        try {
+          var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+          checks.forEach(function (check) { check.checked = saved.indexOf(check.value) !== -1; });
+        } catch (error) {
+          progressStatus.textContent = "浏览器未允许读取本地进度，但不影响教程使用。";
+        }
+        updateProgress(false);
+      }
+
+      function updateProgress(save) {
+        var completed = checks.filter(function (check) { return check.checked; });
+        var percent = Math.round((completed.length / checks.length) * 100);
+        progressBar.style.width = percent + "%";
+        progressText.textContent = "已完成 " + completed.length + " / " + checks.length;
+        if (save) {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(completed.map(function (check) { return check.value; })));
+            progressStatus.textContent = completed.length === checks.length ? "培训已完成，可以开始独立创作。" : "培训进度已保存在当前浏览器。";
+          } catch (error) {
+            progressStatus.textContent = "无法保存本地进度，但勾选结果在本页仍然有效。";
+          }
+        }
+      }
+
+      checks.forEach(function (check) { check.addEventListener("change", function () { updateProgress(true); }); });
+      document.getElementById("reset-progress").addEventListener("click", function () {
+        if (!window.confirm("确认清空这份手册的培训勾选进度吗？")) return;
+        checks.forEach(function (check) { check.checked = false; });
+        try { localStorage.removeItem(STORAGE_KEY); } catch (error) { /* 手册仍可继续使用 */ }
+        updateProgress(false);
+        progressStatus.textContent = "培训进度已重置。";
+      });
+
+      setStage("outline");
+      loadProgress();
+    }());
+  </script>
+</body>
+</html>
