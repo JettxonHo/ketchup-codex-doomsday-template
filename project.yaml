@@ -1,0 +1,17 @@
+version: 1
+title: 未命名末世重生漫剧
+format: 60集末世重生漫剧
+current_stage: outline
+current_batch: 0
+completed_episodes: []
+approved_batches: []
+updated_at: null
+constraints:
+  batch_size: 5
+  episode_words_min: 500
+  episode_words_max: 800
+  max_revision_rounds: 3
+quality_gate:
+  deterministic_validation: required
+  aligner_pass: required
+
