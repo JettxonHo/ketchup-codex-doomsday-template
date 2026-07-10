@@ -1,0 +1,51 @@
+name: 工作流改进建议
+description: 提议优化创作阶段、指令、模板、检查规则或培训体验
+title: "[Workflow] "
+labels:
+  - enhancement
+body:
+  - type: dropdown
+    id: stage
+    attributes:
+      label: 影响阶段
+      options:
+        - 大纲
+        - 人物
+        - 目录
+        - 正文批次
+        - 一致性检查
+        - 新人培训
+        - 全流程
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: 当前问题
+      description: 说明当前流程为何难用、容易误解或无法覆盖需求
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议方案
+      description: 写出期望的新行为以及是否会影响现有项目
+    validations:
+      required: true
+  - type: dropdown
+    id: compatibility
+    attributes:
+      label: 是否需要兼容已有剧本项目
+      options:
+        - 是，必须兼容
+        - 否，只影响新项目
+        - 不确定
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 范围确认
+      options:
+        - label: 我已说明受影响的阶段和可能的兼容性风险
+          required: true

@@ -1,0 +1,55 @@
+name: 程序问题
+description: 报告校验脚本、HTML 交互或项目模板中的可复现错误
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: 请勿提交剧本全文、访问令牌、邮箱或其他隐私信息。
+  - type: dropdown
+    id: component
+    attributes:
+      label: 问题组件
+      options:
+        - 校验脚本
+        - 新人操作手册
+        - AGENTS.md 工作流
+        - Skill 或 Aligner
+        - GitHub 模板结构
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 运行环境
+      description: 例如 macOS 15、Python 3.9、Codex App
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 请写出最短的复现指令和操作顺序
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果与脱敏日志
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: 提交确认
+      options:
+        - label: 我已删除剧本全文、密钥、邮箱和本地敏感路径
+          required: true
+
