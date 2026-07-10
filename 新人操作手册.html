@@ -248,22 +248,22 @@
             <div class="action-box"><h3>现在要做什么？</h3><p>回答核心创意、金手指和题材议题三个问题，然后让 Codex 创建 `outline.md`。</p></div>
             <ol class="steps"><li><div><strong>写出前世惨死和重生节点</strong><br>一两句话即可，不必先写完整剧情。</div></li><li><div><strong>确定金手指边界</strong><br>空间能否进活物、是否时间静止，都应尽早说清。</div></li><li><div><strong>选择主要爽点</strong><br>囤货复仇、咸鱼躺平、基地建设或先知布局。</div></li></ol>
           </div>
-          <div class="panel-body stage-panel" id="stage-character" role="tabpanel" aria-labelledby="tab-character" hidden>
+          <div class="panel-body stage-panel" id="stage-character" role="tabpanel" aria-labelledby="tab-character">
             <div class="panel-title"><div><div class="kicker">当前行动</div><h2>让角色服务冲突</h2></div><span class="badge">前置：outline.md</span></div>
             <div class="action-box"><h3>在 Codex 输入 `/character`</h3><p>Codex 会读取大纲和人物模板，创建主角、前世仇人、队友及最终 Boss 的人物小传。</p></div>
             <ol class="steps"><li><div><strong>先确认大纲满意</strong><br>人物必须服从故事主线和天灾进程。</div></li><li><div><strong>输入项目指令</strong><br><code>/character</code></div></li><li><div><strong>检查角色动机</strong><br>重点查看前世关系、复仇理由和出场阶段。</div></li></ol>
           </div>
-          <div class="panel-body stage-panel" id="stage-catalog" role="tabpanel" aria-labelledby="tab-catalog" hidden>
+          <div class="panel-body stage-panel" id="stage-catalog" role="tabpanel" aria-labelledby="tab-catalog">
             <div class="panel-title"><div><div class="kicker">当前行动</div><h2>把 60 集拆成路线图</h2></div><span class="badge">前置：大纲 + 人物</span></div>
             <div class="action-box"><h3>在 Codex 输入 `/catalog`</h3><p>目录必须正好 60 集，每集有标题和一句话剧情推进，关键集承担大爽点。</p></div>
             <ol class="steps"><li><div><strong>确认两个前置文件存在</strong><br>`outline.md` 和 `character.md` 缺一不可。</div></li><li><div><strong>生成章节目录</strong><br><code>/catalog</code></div></li><li><div><strong>检查关键节点</strong><br>第 10、20、30、40、50、60 集必须清晰。</div></li></ol>
           </div>
-          <div class="panel-body stage-panel" id="stage-writing" role="tabpanel" aria-labelledby="tab-writing" hidden>
+          <div class="panel-body stage-panel" id="stage-writing" role="tabpanel" aria-labelledby="tab-writing">
             <div class="panel-title"><div><div class="kicker">当前行动</div><h2>每次只写五集</h2></div><span class="badge">12 个批次</span></div>
             <div class="action-box"><h3>从 `/write 1` 开始</h3><p>数字是批次编号，不是幕数。草稿进入 `drafts/`，检查通过后才发布到 `chapters/`。</p></div>
             <ol class="steps"><li><div><strong>按顺序选批次</strong><br>不要跳过前一批剧情和检查报告。</div></li><li><div><strong>等待双重检查</strong><br>Python 检查硬规则，Aligner 检查剧情一致性。</div></li><li><div><strong>只认正式目录</strong><br>只有 `chapters/` 中的文件才算正式完成。</div></li></ol>
           </div>
-          <div class="panel-body stage-panel" id="stage-check" role="tabpanel" aria-labelledby="tab-check" hidden>
+          <div class="panel-body stage-panel" id="stage-check" role="tabpanel" aria-labelledby="tab-check">
             <div class="panel-title"><div><div class="kicker">当前行动</div><h2>用证据确认完成</h2></div><span class="badge">默认只检查</span></div>
             <div class="action-box"><h3>输入 `/check` 或 `/status`</h3><p>`/check` 找问题但默认不修改；`/status` 展示真实文件、批次报告与下一步。</p></div>
             <ol class="steps"><li><div><strong>先跑硬规则</strong><br><code>python3 scripts/validate_project.py</code></div></li><li><div><strong>再做语义检查</strong><br>人物、天灾、爽点、时间线和金手指统一。</div></li><li><div><strong>失败就保留报告</strong><br>不能跳过问题或口头宣称 PASS。</div></li></ol>
